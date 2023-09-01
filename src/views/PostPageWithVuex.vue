@@ -1,11 +1,17 @@
 <template>
   <div>
-		<h1>{{ $store.state.post.pageLimit }}</h1>
-    <!-- <h1>Posts page</h1>
-    <my-input v-focus v-model="searchQuery" placeholder="Search..." />
+    <h1>Posts page</h1>
+    <my-input
+      v-focus
+      :model-value="searchQuery"
+      @update:model-value="setSearchQuery"
+      placeholder="Search..." />
     <div class="app_btns">
       <my-button @click="showDialog"> Create post </my-button>
-      <my-select v-model="selectedSort" :options="sortOptions" />
+      <my-select
+        :model-value="selectedSort"
+        @update:model-value="setSelectedSort"
+        :options="sortOptions" />
     </div>
     <my-dialog v-model:show="dialogVisible">
       <PostForm @create="createPost" />
@@ -15,36 +21,41 @@
       :posts="searchedAndSortedPosts"
       @remove="removePost" />
     <div v-else>Posts loading...</div>
-    <div v-intersection="loadMorePosts" class="observer"></div> -->
-    <!-- <div class="page_wrapper">
-      <div
-        v-for="page in totalPages"
-        :key="page"
-        class="page"
-        :class="{ 'current-page': page === pageNumber }"
-				@click="changePage(page)">
-        {{ page }}
-      </div>
-    </div> -->
+    <div v-intersection="loadMorePosts" class="observer"></div>
   </div>
 </template>
 
 <script>
 import PostForm from "@/components/PostForm.vue";
 import PostList from "@/components/PostList.vue";
-import axios from "axios";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import MyButton from "@/components/UI/MyButton.vue";
+import MyInput from "@/components/UI/MyInput.vue";
+import MySelect from "@/components/UI/MySelect.vue";
 
 export default {
   components: {
+    MyButton,
+    MyInput,
+    MySelect,
     PostForm,
     PostList,
   },
   data() {
     return {
-
+      dialogVisible: false,
     };
   },
   methods: {
+    ...mapMutations({
+      setPageNumber: "post/setPageNumber",
+      setSearchQuery: "post/setSearchQuery",
+      setSelectedSort: "post/setSelectedSort",
+    }),
+    ...mapActions({
+      loadMorePosts: "post/loadMorePosts",
+      fetchPosts: "post/fetchPosts",
+    }),
     createPost(post) {
       this.posts.push(post);
       this.dialogVisible = false;
@@ -55,18 +66,25 @@ export default {
     showDialog() {
       this.dialogVisible = true;
     },
-    // changePage(page) {
-    // 	this.pageNumber = page;
-    // 	this.fetchPosts();
-    // },
-    
   },
   computed: {
-
+    ...mapState({
+      posts: (state) => state.post.posts,
+      isLoading: (state) => state.post.isLoading,
+      selectedSort: (state) => state.post.selectedSort,
+      searchQuery: (state) => state.post.searchQuery,
+      pageNumber: (state) => state.post.pageNumber,
+      pageLimit: (state) => state.post.pageLimit,
+      totalPages: (state) => state.post.posttotalPagess,
+      sortOptions: (state) => state.post.sortOptions,
+    }),
+    ...mapGetters({
+      sortedPosts: "post/sortedPosts",
+      searchedAndSortedPosts: "post/searchedAndSortedPosts",
+    }),
   },
-  watch: {},
-  async mounted() {
-    // await this.fetchPosts();
+  mounted() {
+    this.fetchPosts();
   },
 };
 </script>

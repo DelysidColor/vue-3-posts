@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const postModule = {
   state: () => ({
     posts: [],
@@ -14,7 +16,7 @@ export const postModule = {
   }),
   getters: {
     sortedPosts(state) {
-      return [state.posts].sort((post1, post2) =>
+      return [...state.posts].sort((post1, post2) =>
         post1[state.selectedSort]?.localeCompare(post2[state.selectedSort])
       );
     },
@@ -63,6 +65,7 @@ export const postModule = {
         );
         commit("setPosts", response.data);
       } catch (e) {
+        console.log(e);
         alert("error");
       } finally {
         commit("setLoading", false);
@@ -86,6 +89,7 @@ export const postModule = {
         );
         commit("setPosts", [...state.posts, ...response.data]);
       } catch (e) {
+        console.log(e);
         alert("error");
       }
     },

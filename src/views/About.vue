@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1>Here should b e about information</h1>
+    <h1>
+      This app includes most of the usability of the Vue 3.
+      <br />
+      To see more - follow the links on the Navigation Bar above.
+    </h1>
   </div>
 </template>
 

@@ -11,6 +11,9 @@
       <my-button style="margin-left: 20px" @click="$router.push('/store')"
         >Posts with Vuex</my-button
       >
+      <my-button style="margin-left: 20px" @click="$router.push('/api')"
+        >Composition Api Posts</my-button
+      >
     </div>
   </div>
 </template>

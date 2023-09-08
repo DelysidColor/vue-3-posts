@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Posts page</h1>
+    <h1>Posts page with store</h1>
     <my-input
       v-focus
       :model-value="searchQuery"

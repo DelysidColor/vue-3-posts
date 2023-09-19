@@ -15,5 +15,7 @@ npm run serve
 npm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### About
+```
+Post application with almost all functions we usually use in real projects. Also has VUEX page and Composition API page. 
+```

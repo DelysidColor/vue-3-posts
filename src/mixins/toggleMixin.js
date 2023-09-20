@@ -6,9 +6,8 @@ export default {
     },
   },
   methods: {
-		hideDialog() {
-      this.$emit("update:show", false);
+    hideDialog() {
+       this.$emit("update:show", false);
     },
-	},
-  mounted() {},
+  },
 };
